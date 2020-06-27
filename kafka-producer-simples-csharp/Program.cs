@@ -10,11 +10,7 @@ namespace kafka_producer_simples_csharp
         static async Task Main()
         {
             var config = new ProducerConfig {
-                BootstrapServers = "omnibus-01.srvs.cloudkafka.com:9094",
-                SaslUsername = "f5xaw18s",
-                SaslPassword = "GDrH3mHRwasLltJ4O7JRde73sPUN0y6h",
-                SaslMechanism = SaslMechanism.Plain,
-                SecurityProtocol = SecurityProtocol.SaslPlaintext
+                BootstrapServers = "localhost:9092"
             };
 
             using var p = new ProducerBuilder<Null, string>(config).Build();
@@ -25,7 +21,7 @@ namespace kafka_producer_simples_csharp
 
                 while (true)
                 {
-                    var dr = await p.ProduceAsync("f5xaw18s-apptest", new Message<Null, string> { Value = $"test: {count}" });
+                    var dr = await p.ProduceAsync("test-topic", new Message<Null, string> { Value = $"test: {count}" });
                     Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}' -> count: {count}");
 
                     Thread.Sleep(2000);
